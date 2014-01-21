@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+
+% \newcommand{\wbalTwo}[2] {
+%   This is the Wikibook about LaTeX
+%   supported by #1 #2
+% }
+  
+\begin{document}
+
+<<echo=FALSE>>=
+set.seed(8675307)
+opts_chunk$set(cache = TRUE)
+@
+\title{Lecture 1: Introduction}
+\author{Erik Gregory}
+\maketitle
+
+\section{What is Data Science?}
+
+For fun, let's firt go through the 'birthday paradox'
+
+\subsection{The Birthday Paradox}
+The birthday paradox is not really a paradox, but is an interesting consequence of probability.  It essentially states that there is a surprisingly high probability that two people in a room of classroom-like size have the same birthdate.  Suppose we want to calculate the probability that two people in a room of 20 people have the same birthdate.
+
+We might first proceed with a simulation, as follows.
+<<>>=
+simulateParadox <- function(N = 1000, size = 20) {
+  shared <- 0
+  for (i in 1:N) {
+    birthdates <- sample(365, size, replace = TRUE)
+    hasSame <- length(which(duplicated(birthdates)))
+    shared <- shared + (hasSame > 0)
+  }
+  shared/N
+}
+simulateParadox(1200000)
+@
+It turns out this can be calculated precisely using the complement of the probability that no two people in a class of 20 have the same birthdate
+<<>>=
+calculateP <- function(size = 20) {
+  1 - prod((365 - 1:(size - 1))/365)
+}
+calculateP(20)
+@
+Notice the p-values end up similar.
+
+The point of this exercise was to show the sort of things people might use Data Science for.
+
+\section{Data Science Workflow}
+The typical workflow of a data scientists is as follows.
+\begin{enumerate}
+\item Obtain
+\item Scrub
+\item Explore
+\item Model
+\item Interpret
+\end{enumerate}
+
+
+
+
+\end{document}
